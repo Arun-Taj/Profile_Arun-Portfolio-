@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base resets ─────────────────────────────────────────────────────────── */
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #00f5ff #0d0d1a;
+  }
+
+  ::-webkit-scrollbar       { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0d0d1a; }
+  ::-webkit-scrollbar-thumb { background: #00f5ff; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-body overflow-x-hidden;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: rgba(0,245,255,0.25);
+    color: #00f5ff;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-display;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* ─── Grid overlay on body ────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Component layer ─────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Section layout */
+  .section-base {
+    @apply py-24 relative z-10;
+  }
+  .container-base {
+    @apply max-w-6xl mx-auto px-8;
+  }
+
+  /* Section heading */
+  .section-title {
+    @apply font-display font-bold uppercase tracking-widest;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #00f5ff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-subtitle {
+    @apply font-mono text-sm text-text-muted tracking-[0.2em] uppercase mb-12;
+  }
+  .section-subtitle::before { content: '// '; color: #00f5ff; }
+
+  /* Cards */
+  .card-base {
+    @apply bg-bg-card border border-white/[0.08] rounded-xl p-6 relative overflow-hidden transition-all duration-300;
+  }
+  .card-base::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none;
+    background: linear-gradient(135deg, rgba(0,245,255,0.05), rgba(124,58,237,0.05));
+    z-index: 0;
+  }
+  .card-base:hover {
+    @apply border-neon-cyan/40 -translate-y-1 shadow-neon;
+  }
+  .card-base:hover::before { @apply opacity-100; }
+  .card-base > * { @apply relative z-10; }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-lg font-display font-semibold
+           text-base uppercase tracking-wide text-black cursor-pointer border-none transition-all duration-300;
+    background: linear-gradient(135deg, #00f5ff, #7c3aed);
+  }
+  .btn-primary:hover { @apply shadow-neon -translate-y-0.5; }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-lg font-display font-semibold
+           text-base uppercase tracking-wide text-neon-cyan cursor-pointer transition-all duration-300
+           bg-transparent border border-neon-cyan;
+  }
+  .btn-outline:hover { @apply bg-neon-cyan/10 shadow-neon -translate-y-0.5; }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-lg font-display font-semibold
+           text-base uppercase tracking-wide text-text-secondary cursor-pointer transition-all duration-300
+           bg-transparent border border-white/10;
+  }
+  .btn-ghost:hover { @apply border-neon-cyan/40 text-text-primary; }
+
+  /* Badges */
+  .badge-cyan {
+    @apply inline-block px-3 py-0.5 rounded-full font-mono text-[0.7rem] tracking-wide
+           bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30;
+  }
+  .badge-purple {
+    @apply inline-block px-3 py-0.5 rounded-full font-mono text-[0.7rem] tracking-wide
+           bg-neon-purple/20 text-purple-300 border border-neon-purple/40;
+  }
+  .badge-pink {
+    @apply inline-block px-3 py-0.5 rounded-full font-mono text-[0.7rem] tracking-wide
+           bg-neon-pink/10 text-pink-300 border border-neon-pink/30;
+  }
+
+  /* Neon dot */
+  .neon-dot {
+    @apply w-2 h-2 rounded-full bg-neon-green;
+    box-shadow: 0 0 8px #39ff14;
+    animation: pulseGlow 2s infinite;
+  }
+
+  /* Progress bar */
+  .progress-track {
+    @apply h-1 bg-bg-secondary rounded-full overflow-hidden;
+  }
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-[1500ms] ease-out;
+    background: linear-gradient(90deg, #00f5ff, #7c3aed);
+  }
+
+  /* Form inputs */
+  .form-input {
+    @apply w-full bg-bg-secondary border border-white/10 rounded-lg px-4 py-3.5
+           text-text-primary font-body text-[0.95rem] outline-none transition-all duration-200
+           placeholder:text-text-muted relative z-10 pointer-events-auto;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .form-input:focus {
+    @apply border-neon-cyan;
+    box-shadow: 0 0 0 3px rgba(0,245,255,0.1);
+  }
+
+  .form-label {
+    @apply block font-mono text-[0.72rem] text-neon-cyan tracking-[0.1em] uppercase mb-1.5;
+  }
+
+  /* Social icon button */
+  .social-btn {
+    @apply w-11 h-11 rounded-xl border border-white/10 bg-bg-card flex items-center justify-center
+           text-text-secondary transition-all duration-300 no-underline;
+  }
+  .social-btn:hover {
+    @apply border-neon-cyan text-neon-cyan shadow-neon;
+  }
+}
+
+/* ─── Utility layer extras ────────────────────────────────────────────────── */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #00f5ff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-purple {
+    background: linear-gradient(135deg, #7c3aed, #f72585);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glow-cyan  { box-shadow: 0 0 20px rgba(0,245,255,0.3); }
+  .glow-purple{ box-shadow: 0 0 20px rgba(124,58,237,0.3); }
+}
