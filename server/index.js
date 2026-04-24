@@ -27,10 +27,32 @@ connectDB();
 app.use(helmet());
 app.use(morgan('dev'));
 
+// const corsOptions = {
+//   origin: process.env.NODE_ENV === 'production'
+//     ? process.env.CLIENT_URL
+//     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+//   credentials: true,
+// };
+
+// app.use(cors(corsOptions));
+// app.options('*', cors(corsOptions));
+const allowedOrigins = [
+  'https://tajpuriya.netlify.app',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000'
+];
+
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production'
-    ? process.env.CLIENT_URL
-    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman, mobile apps)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 };
 
