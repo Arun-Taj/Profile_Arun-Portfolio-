@@ -103,7 +103,7 @@ export default function Hero({ profile }) {
             {/* Name */}
             <h1 className="font-display font-bold uppercase tracking-wide leading-none mb-4"
               style={{ fontSize: 'clamp(2.8rem,7vw,5.5rem)' }}>
-              {profile?.name || 'Your Name'}
+              {profile?.name || 'Arun Tajpuriya'}
             </h1>
 
             {/* Typewriter */}
