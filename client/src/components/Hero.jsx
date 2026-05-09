@@ -72,7 +72,8 @@ export default function Hero({ profile }) {
     return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
   }, [])
 
-  const stats = profile?.stats || { yearsExperience: 3, projectsCompleted: 40, clientsSatisfied: 25 }
+  //const stats = profile?.stats || { yearsExperience: 3, projectsCompleted: 40, clientsSatisfied: 25 }
+  const stats = profile.stats;
   const scrollTo = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
@@ -103,7 +104,8 @@ export default function Hero({ profile }) {
             {/* Name */}
             <h1 className="font-display font-bold uppercase tracking-wide leading-none mb-4"
               style={{ fontSize: 'clamp(2.8rem,7vw,5.5rem)' }}>
-              {profile?.name || 'Arun Tajpuriya'}
+              {/* {profile?.name || 'Arun Tajpuriya'} */}
+              {profile.name}
             </h1>
 
             {/* Typewriter */}
@@ -117,7 +119,8 @@ export default function Hero({ profile }) {
 
             {/* Bio */}
             <p className="text-text-secondary text-lg leading-relaxed max-w-xl mb-10">
-              {profile?.bio || 'Passionate full-stack developer crafting high-performance web applications with modern technologies. I turn complex problems into elegant, scalable solutions.'}
+              {/* {profile?.bio || 'Passionate full-stack developer crafting high-performance web applications with modern technologies. I turn complex problems into elegant, scalable solutions.'} */}
+              {profile.bio}
             </p>
 
             {/* CTA buttons */}

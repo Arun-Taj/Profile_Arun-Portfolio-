@@ -6,7 +6,7 @@ const apiBaseURL = import.meta.env.VITE_API_URL
 
 const API = axios.create({
   baseURL: apiBaseURL,
-  timeout: 10000,
+  timeout: 60000,
 });
 
 // Attach JWT token to every request
@@ -17,15 +17,48 @@ API.interceptors.request.use((config) => {
 });
 
 // Handle auth errors globally
+// API.interceptors.response.use(
+//   (res) => res,
+//   (err) => {
+//     if (err.response?.status === 401) {
+//       localStorage.removeItem('portfolio_token');
+//       if (window.location.pathname.startsWith('/admin/')) {
+//         window.location.href = '/admin';
+//       }
+//     }
+//     return Promise.reject(err);
+//   }
+// );
+
 API.interceptors.response.use(
   (res) => res,
-  (err) => {
+  async (err) => {
+    const config = err.config;
+
+    // Retry once for GET requests on timeout or network errors
+    if (
+      config &&
+      config.method === 'get' &&
+      !config._retry &&
+      (!err.response || err.code === 'ECONNABORTED')
+    ) {
+      config._retry = true;
+
+      // Wait 5 seconds before retrying
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      return API(config);
+    }
+
+    // Handle authentication errors
     if (err.response?.status === 401) {
       localStorage.removeItem('portfolio_token');
+
       if (window.location.pathname.startsWith('/admin/')) {
         window.location.href = '/admin';
       }
     }
+
     return Promise.reject(err);
   }
 );
