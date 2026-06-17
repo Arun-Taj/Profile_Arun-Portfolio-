@@ -53,18 +53,29 @@ const projectSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // ─── Skill Model ──────────────────────────────────────────────────────────────
+// const skillSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   category: {
+//     type: String,
+//     enum: ['frontend', 'backend', 'database', 'devops', 'tools', 'languages', 'other'],
+//     required: true
+//   },
+//   proficiency: { type: Number, min: 0, max: 100, required: true },
+//   icon: { type: String },
+//   color: { type: String },
+//   featured: { type: Boolean, default: false },
+//   order: { type: Number, default: 0 }
+// }, { timestamps: true });
+
 const skillSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, trim: true },
   category: {
     type: String,
     enum: ['frontend', 'backend', 'database', 'devops', 'tools', 'languages', 'other'],
-    required: true
+    required: true,
   },
-  proficiency: { type: Number, min: 0, max: 100, required: true },
-  icon: { type: String },
-  color: { type: String },
   featured: { type: Boolean, default: false },
-  order: { type: Number, default: 0 }
+  order:    { type: Number,  default: 0 },
 }, { timestamps: true });
 
 // ─── Experience Model ─────────────────────────────────────────────────────────
