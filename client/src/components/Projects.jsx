@@ -113,7 +113,7 @@ export default function Projects({ projects }) {
   const displayed = showAll ? filtered : filtered.slice(0, 6)
 
   return (
-    <section id="projects" className="section-base bg-bg-secondary">
+    <section id="projects" className="section-base ">
       <div className="container-base">
         <div className="text-center mb-16">
           <p className="section-subtitle">Things I've built</p>

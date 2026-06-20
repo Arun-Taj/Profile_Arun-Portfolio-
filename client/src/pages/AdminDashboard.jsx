@@ -307,23 +307,93 @@ function ProjectsPanel({ items, onRefresh }) {
 }
 
 /* ── SKILLS ───────────────────────────────────────────────────────────────── */
-const EMPTY_SKILL = { name:'', category:'frontend', proficiency:80, featured:false, order:0 }
+// const EMPTY_SKILL = { name:'', category:'frontend', proficiency:80, featured:false, order:0 }
+
+// function SkillForm({ item, api, onSave, onCancel }) {
+//   const isNew = !item._id
+//   const [form, setForm] = useState({...EMPTY_SKILL,...item})
+//   const [saving, setSaving] = useState(false)
+//   const [success, setSuccess] = useState(false)
+//   const [error, setError] = useState('')
+//   const set = (f,v) => setForm(p=>({...p,[f]:v}))
+
+//   const handleSave = async () => {
+//     if (!form.name.trim()) { setError('Skill name is required'); return }
+//     setError(''); setSaving(true)
+//     try {
+//       isNew ? await api.create(form) : await api.update(item._id, form)
+//       setSuccess(true); setTimeout(()=>onSave(), 800)
+//     } catch(e) { setError(e.response?.data?.error||e.message) }
+//     finally { setSaving(false) }
+//   }
+
+//   return (
+//     <div className="max-w-xl">
+//       <div className="flex items-center gap-3 mb-6">
+//         <button onClick={onCancel} className="btn-ghost !px-3 !py-2 !text-xs">← Back</button>
+//         <h2 className="font-display font-bold text-xl tracking-wide">{isNew ? 'Add Skill' : `Edit: ${item.name}`}</h2>
+//       </div>
+//       <ErrBox msg={error}/>
+//       <div className="card-base !p-6 space-y-5">
+//         <FInput label="Skill Name *" value={form.name} onChange={v=>set('name',v)} placeholder="e.g. React.js" required/>
+//         <FSelect label="Category" value={form.category} onChange={v=>set('category',v)} options={[
+//           {value:'frontend',label:'🎨 Frontend'},{value:'backend',label:'⚙️ Backend'},
+//           {value:'database',label:'🗄️ Database'},{value:'devops',label:'🚀 DevOps'},
+//           {value:'tools',label:'🔧 Tools'},{value:'languages',label:'💻 Languages'},{value:'other',label:'📦 Other'},
+//         ]}/>
+//         <FL label={`Proficiency — ${form.proficiency}%`}>
+//           <input type="range" min="0" max="100" value={form.proficiency}
+//             onChange={e=>set('proficiency',Number(e.target.value))} className="w-full accent-neon-cyan cursor-pointer mt-1"/>
+//           <div className="mt-2 h-1.5 bg-bg-secondary rounded-full overflow-hidden">
+//             <div className="h-full rounded-full transition-all" style={{width:`${form.proficiency}%`,background:'linear-gradient(90deg,#00f5ff,#7c3aed)'}}/>
+//           </div>
+//         </FL>
+//         <div className="flex items-start gap-8">
+//           <FToggle label="Featured" value={form.featured} onChange={v=>set('featured',v)}/>
+//           <FInput label="Display Order" value={String(form.order)} onChange={v=>set('order',parseInt(v)||0)} type="number" placeholder="0"/>
+//         </div>
+//       </div>
+//       <SaveBar saving={saving} success={success} onSave={handleSave} onCancel={onCancel} isNew={isNew}/>
+//     </div>
+//   )
+// }
+
+// function SkillsPanel({ items, onRefresh }) {
+//   return (
+//     <ListShell items={items} api={skillsAPI} onRefresh={onRefresh} FormComponent={SkillForm}
+//       renderRow={item=>(
+//         <div className="flex items-center gap-4">
+//           <div className="flex-1"><span className="font-medium text-sm">{item.name}</span><span className="ml-2 text-text-muted text-xs capitalize">({item.category})</span></div>
+//           <div className="w-24 h-1.5 bg-bg-secondary rounded-full overflow-hidden">
+//             <div className="h-full rounded-full" style={{width:`${item.proficiency}%`,background:'linear-gradient(90deg,#00f5ff,#7c3aed)'}}/>
+//           </div>
+//           <span className="font-mono text-xs text-neon-cyan w-10 text-right">{item.proficiency}%</span>
+//         </div>
+//       )}
+//     />
+//   )
+// }
+
+const EMPTY_SKILL = { name: '', category: 'frontend', featured: false, order: 0 }
 
 function SkillForm({ item, api, onSave, onCancel }) {
   const isNew = !item._id
-  const [form, setForm] = useState({...EMPTY_SKILL,...item})
-  const [saving, setSaving] = useState(false)
+  const [form, setForm]       = useState({ ...EMPTY_SKILL, ...item })
+  const [saving, setSaving]   = useState(false)
   const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
-  const set = (f,v) => setForm(p=>({...p,[f]:v}))
+  const [error, setError]     = useState('')
+  const set = (f, v) => setForm(p => ({ ...p, [f]: v }))
 
   const handleSave = async () => {
     if (!form.name.trim()) { setError('Skill name is required'); return }
     setError(''); setSaving(true)
     try {
-      isNew ? await api.create(form) : await api.update(item._id, form)
-      setSuccess(true); setTimeout(()=>onSave(), 800)
-    } catch(e) { setError(e.response?.data?.error||e.message) }
+      isNew
+        ? await api.create(form)
+        : await api.update(item._id, form)
+      setSuccess(true)
+      setTimeout(() => onSave(), 800)
+    } catch (e) { setError(e.response?.data?.error || e.message) }
     finally { setSaving(false) }
   }
 
@@ -331,48 +401,109 @@ function SkillForm({ item, api, onSave, onCancel }) {
     <div className="max-w-xl">
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onCancel} className="btn-ghost !px-3 !py-2 !text-xs">← Back</button>
-        <h2 className="font-display font-bold text-xl tracking-wide">{isNew ? 'Add Skill' : `Edit: ${item.name}`}</h2>
+        <h2 className="font-display font-bold text-xl tracking-wide">
+          {isNew ? 'Add Skill' : `Edit: ${item.name}`}
+        </h2>
       </div>
-      <ErrBox msg={error}/>
+
+      <ErrBox msg={error} />
+
       <div className="card-base !p-6 space-y-5">
-        <FInput label="Skill Name *" value={form.name} onChange={v=>set('name',v)} placeholder="e.g. React.js" required/>
-        <FSelect label="Category" value={form.category} onChange={v=>set('category',v)} options={[
-          {value:'frontend',label:'🎨 Frontend'},{value:'backend',label:'⚙️ Backend'},
-          {value:'database',label:'🗄️ Database'},{value:'devops',label:'🚀 DevOps'},
-          {value:'tools',label:'🔧 Tools'},{value:'languages',label:'💻 Languages'},{value:'other',label:'📦 Other'},
-        ]}/>
-        <FL label={`Proficiency — ${form.proficiency}%`}>
-          <input type="range" min="0" max="100" value={form.proficiency}
-            onChange={e=>set('proficiency',Number(e.target.value))} className="w-full accent-neon-cyan cursor-pointer mt-1"/>
-          <div className="mt-2 h-1.5 bg-bg-secondary rounded-full overflow-hidden">
-            <div className="h-full rounded-full transition-all" style={{width:`${form.proficiency}%`,background:'linear-gradient(90deg,#00f5ff,#7c3aed)'}}/>
-          </div>
-        </FL>
-        <div className="flex items-start gap-8">
-          <FToggle label="Featured" value={form.featured} onChange={v=>set('featured',v)}/>
-          <FInput label="Display Order" value={String(form.order)} onChange={v=>set('order',parseInt(v)||0)} type="number" placeholder="0"/>
+
+        {/* Skill name */}
+        <FInput
+          label="Skill Name *"
+          value={form.name}
+          onChange={v => set('name', v)}
+          placeholder="e.g. React.js, Docker, PostgreSQL"
+          required
+        />
+
+        {/* Category */}
+        <FSelect
+          label="Category"
+          value={form.category}
+          onChange={v => set('category', v)}
+          options={[
+            { value: 'frontend',  label: '🎨 Frontend'  },
+            { value: 'backend',   label: '⚙️ Backend'   },
+            { value: 'database',  label: '🗄️ Database'  },
+            { value: 'devops',    label: '🚀 DevOps'    },
+            { value: 'tools',     label: '🔧 Tools'     },
+            { value: 'languages', label: '💻 Languages' },
+            { value: 'other',     label: '📦 Other'     },
+          ]}
+        />
+
+        {/* Display order */}
+        <FInput
+          label="Display Order (lower number = appears first)"
+          value={String(form.order)}
+          onChange={v => set('order', parseInt(v) || 0)}
+          type="number"
+          placeholder="0"
+        />
+
+        {/* Featured toggle */}
+        <FToggle
+          label="Featured skill"
+          value={form.featured}
+          onChange={v => set('featured', v)}
+        />
+
+        {/* Tips */}
+        <div className="bg-neon-purple/5 border border-neon-purple/20 rounded-lg p-4 text-xs text-text-muted space-y-1">
+          <p className="font-mono text-[0.65rem] text-purple-300 tracking-widest mb-2">💡 TIPS</p>
+          <p>• The skill icon is loaded automatically based on the skill name. Use exact names like
+             <strong className="text-text-secondary"> "React.js"</strong>,
+             <strong className="text-text-secondary"> "Node.js"</strong>,
+             <strong className="text-text-secondary"> "Docker"</strong>,
+             <strong className="text-text-secondary"> "PostgreSQL"</strong> for best icon matching.
+          </p>
+          <p>• If no icon is found, your skill's initials are shown instead — still looks clean.</p>
+          <p>• Use <strong className="text-text-secondary">Display Order</strong> to control the sequence within each category (0 = first).</p>
         </div>
+
       </div>
-      <SaveBar saving={saving} success={success} onSave={handleSave} onCancel={onCancel} isNew={isNew}/>
+
+      <SaveBar
+        saving={saving}
+        success={success}
+        onSave={handleSave}
+        onCancel={onCancel}
+        isNew={isNew}
+      />
     </div>
   )
 }
 
 function SkillsPanel({ items, onRefresh }) {
   return (
-    <ListShell items={items} api={skillsAPI} onRefresh={onRefresh} FormComponent={SkillForm}
-      renderRow={item=>(
-        <div className="flex items-center gap-4">
-          <div className="flex-1"><span className="font-medium text-sm">{item.name}</span><span className="ml-2 text-text-muted text-xs capitalize">({item.category})</span></div>
-          <div className="w-24 h-1.5 bg-bg-secondary rounded-full overflow-hidden">
-            <div className="h-full rounded-full" style={{width:`${item.proficiency}%`,background:'linear-gradient(90deg,#00f5ff,#7c3aed)'}}/>
+    <ListShell
+      items={items}
+      api={skillsAPI}
+      onRefresh={onRefresh}
+      FormComponent={SkillForm}
+      renderRow={item => (
+        <div className="flex items-center gap-3">
+          <div className="flex-1">
+            <span className="font-medium text-sm">{item.name}</span>
+            <span className="ml-2 text-text-muted text-xs capitalize">
+              ({item.category})
+            </span>
+            {item.featured && (
+              <span className="ml-2 badge-cyan text-[0.58rem]">featured</span>
+            )}
           </div>
-          <span className="font-mono text-xs text-neon-cyan w-10 text-right">{item.proficiency}%</span>
+          <span className="font-mono text-[0.65rem] text-text-muted">
+            order: {item.order ?? 0}
+          </span>
         </div>
       )}
     />
   )
 }
+
 
 /* ── EXPERIENCE ───────────────────────────────────────────────────────────── */
 const EMPTY_EXP = { company:'', position:'', location:'', type:'full-time', current:false, startDate:'', endDate:'', description:'', achievements:[], techUsed:[], companyUrl:'' }

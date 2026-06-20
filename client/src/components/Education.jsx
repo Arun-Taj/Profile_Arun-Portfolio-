@@ -28,7 +28,7 @@ export default function Education({ education }) {
   const data = (education?.length > 0) ? education : DEFAULT_EDUCATION
 
   return (
-    <section id="education" className="section-base bg-bg-secondary">
+    <section id="education" className="section-base ">
       <div className="container-base">
         <div className="text-center mb-16">
           <p className="section-subtitle">Academic background</p>

@@ -35,7 +35,7 @@ export default function Testimonials({ testimonials }) {
           {/* Main card */}
           <div className="card-base !p-12 relative text-center">
             {/* Quote icon */}
-            <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center"
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center"
               style={{ background:'linear-gradient(135deg,#00f5ff,#7c3aed)' }}>
               <Quote size={18} color="#000" />
             </div>
@@ -52,10 +52,11 @@ export default function Testimonials({ testimonials }) {
 
             {/* Author */}
             <div className="flex flex-col items-center gap-2">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center font-display font-bold text-lg border-2"
+              <div className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-lg border-2"
                 style={{ background:`${color}22`, borderColor:`${color}55`, color }}>
                 {initials(t.name)}
               </div>
+              
               <p className="font-display font-bold text-base tracking-wide">{t.name}</p>
               <p className="font-mono text-text-muted text-xs">
                 {t.position}{t.company && ` @ ${t.company}`}

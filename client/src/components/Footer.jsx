@@ -6,7 +6,7 @@ export default function Footer({ profile }) {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   return (
-    <footer className="bg-bg-secondary border-t border-white/[0.08] pt-12 pb-8 relative z-10">
+    <footer className="bg-bg-secondary border-t border-white/[0.08] pt-8 pb-8 relative z-10">
       <div className="container-base">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-8">
 

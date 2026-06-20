@@ -2,16 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X, Terminal } from 'lucide-react'
 
+// const NAV_LINKS = [
+//   { label: 'About',        href: '#about' },
+//   { label: 'Skills',       href: '#skills' },
+//   { label: 'Experience',   href: '#experience' },
+//   { label: 'Projects',     href: '#projects' },
+//   { label: 'Education',    href: '#education' },
+//   { label: 'Testimonials', href: '#testimonials' },
+//   { label: 'Contact',      href: '#contact' },
+// ]
 const NAV_LINKS = [
-  { label: 'About',        href: '#about' },
-  { label: 'Skills',       href: '#skills' },
-  { label: 'Experience',   href: '#experience' },
-  { label: 'Projects',     href: '#projects' },
-  { label: 'Education',    href: '#education' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Contact',      href: '#contact' },
+  { label: 'About', path: '/about', section: 'about' },
+  { label: 'Skills', path: '/skills', section: 'skills' },
+  { label: 'Experience', path: '/experience', section: 'experience' },
+  { label: 'Projects', path: '/projects', section: 'projects' },
+  { label: 'Education', path: '/education', section: 'education' },
+  { label: 'Testimonials', path: '/testimonials', section: 'testimonials' },
+  { label: 'Contact', path: '/contact', section: 'contact' },
 ]
-
 export default function Navbar() {
   const [scrolled, setScrolled]   = useState(false)
   const [menuOpen, setMenuOpen]   = useState(false)
@@ -22,11 +30,13 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50)
-      const sections = NAV_LINKS.map(l => l.href.slice(1))
+      // const sections = NAV_LINKS.map(l => l.href.slice(1))
+      const sections = NAV_LINKS.map(l => l.section)
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i])
         if (el && window.scrollY >= el.offsetTop - 120) {
-          setActive('#' + sections[i])
+          // setActive('#' + sections[i])
+          setActive(sections[i])
           break
         }
       }
@@ -35,16 +45,30 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const scrollTo = (href) => {
-    setMenuOpen(false)
-    if (location.pathname === '/') {
-      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-      window.history.replaceState(null, '', href)
-      return
-    }
+  // const scrollTo = (href) => {
+  //   setMenuOpen(false)
+  //   if (location.pathname === '/') {
+  //     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+  //     window.history.replaceState(null, '', href)
+  //     return
+  //   }
 
-    navigate(`/${href}`)
-  }
+  //   navigate(`/${href}`)
+  // }
+  const scrollTo = (path, section) => {
+  setMenuOpen(false)
+
+  // change route first
+  navigate(path)
+
+  // wait for DOM update then scroll
+  setTimeout(() => {
+    document.getElementById(section)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }, 100)
+}
 
   return (
     <>
@@ -67,10 +91,11 @@ export default function Navbar() {
           {/* Desktop links */}
           <div className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map(link => (
-              <button key={link.href} onClick={() => scrollTo(link.href)}
+              <button key={link.href} onClick={() => scrollTo(link.path, link.section)}
+              //onClick={() => scrollTo(link.href)}
                 className={`relative px-3.5 py-2 font-mono text-[0.72rem] tracking-widest uppercase rounded-md
                   transition-colors duration-200 bg-transparent border-none cursor-pointer
-                  ${active === link.href ? 'text-neon-cyan' : 'text-text-secondary hover:text-text-primary'}`}>
+                  ${active === link.section ? 'text-neon-cyan' : 'text-text-secondary hover:text-text-primary'}`}>
                 <span className="text-neon-cyan/50">/</span>{link.label}
                 {active === link.href && (
                   <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-neon-cyan"
