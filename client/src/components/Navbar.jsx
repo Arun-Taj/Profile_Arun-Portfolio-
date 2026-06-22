@@ -2,15 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X, Terminal } from 'lucide-react'
 
-// const NAV_LINKS = [
-//   { label: 'About',        href: '#about' },
-//   { label: 'Skills',       href: '#skills' },
-//   { label: 'Experience',   href: '#experience' },
-//   { label: 'Projects',     href: '#projects' },
-//   { label: 'Education',    href: '#education' },
-//   { label: 'Testimonials', href: '#testimonials' },
-//   { label: 'Contact',      href: '#contact' },
-// ]
+
 const NAV_LINKS = [
   { label: 'About', path: '/about', section: 'about' },
   { label: 'Skills', path: '/skills', section: 'skills' },
@@ -45,16 +37,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // const scrollTo = (href) => {
-  //   setMenuOpen(false)
-  //   if (location.pathname === '/') {
-  //     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-  //     window.history.replaceState(null, '', href)
-  //     return
-  //   }
 
-  //   navigate(`/${href}`)
-  // }
   const scrollTo = (path, section) => {
   setMenuOpen(false)
 
@@ -77,7 +60,7 @@ export default function Navbar() {
         <div className="container-base w-full flex items-center justify-between">
 
           {/* Logo */}
-          <button onClick={() => scrollTo('#hero')}
+          <button onClick={() => scrollTo('/#hero')}
             className="flex items-center gap-2 no-underline bg-transparent border-none cursor-pointer">
             <div className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: 'linear-gradient(135deg,#00f5ff,#7c3aed)' }}>
