@@ -60,7 +60,7 @@ export default function Navbar() {
         <div className="container-base w-full flex items-center justify-between">
 
           {/* Logo */}
-          <button onClick={() => scrollTo('/#hero')}
+          <button onClick={() => scrollTo('/','hero')}
             className="flex items-center gap-2 no-underline bg-transparent border-none cursor-pointer">
             <div className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: 'linear-gradient(135deg,#00f5ff,#7c3aed)' }}>
@@ -86,7 +86,7 @@ export default function Navbar() {
                 )}
               </button>
             ))}
-            <button onClick={() => scrollTo('#contact')} className="btn-outline ml-2 !px-5 !py-2 !text-xs">
+            <button onClick={() => scrollTo('/contact','contact')} className="btn-outline ml-2 !px-5 !py-2 !text-xs">
               Hire Me
             </button>
           </div>
@@ -108,9 +108,9 @@ export default function Navbar() {
             <X size={28} />
           </button>
           {NAV_LINKS.map(link => (
-            <button key={link.href} onClick={() => scrollTo(link.href)}
+            <button key={link.section} onClick={() => scrollTo(link.path, link.section)}
               className={`font-display text-4xl font-bold tracking-widest uppercase bg-transparent border-none cursor-pointer transition-colors
-                ${active === link.href ? 'text-neon-cyan' : 'text-text-primary'}`}>
+                ${active === link.section ? 'text-neon-cyan' : 'text-text-primary'}`}>
               {link.label}
             </button>
           ))}
